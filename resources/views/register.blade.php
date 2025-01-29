@@ -6,8 +6,10 @@
     <title>Registro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
+    
 
 <section class="vh-100" style="background-color: #eee;">
   <div class="container h-100">
@@ -23,20 +25,14 @@
                 @if ($errors->any())
 <div class="alert alert-danger">
     <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
+            <li>credenciales incorrectas</li>
     </ul>
 </div>
 @endif
 
-@if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
 
-<form class="mx-1 mx-md-4" method="POST" action="{{ route('validarRegistro') }}">
+
+<form class="mx-1 mx-md-4" method="POST" action="{{ route('registrar') }}" onsubmit="return grecaptcha.getResponse() != '';">
      <!-- Agregar este campo CSRF aquí -->
       @csrf
 
@@ -63,6 +59,11 @@
             <label class="form-label" for="form3Example4c">Contraseña</label>
         </div>
     </div>
+
+                    <!-- Aquí agregas el reCAPTCHA -->
+                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <div class="g-recaptcha" data-sitekey="6LcZsMYqAAAAAE7F8LvuRJuaC8lLGGQhcaNfN7yh"></div>
+                </div>
 
     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
         <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Registrar</button>

@@ -8,6 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
 @if(session('error'))
     <div class="alert alert-danger">
         {{ session('error') }}
@@ -30,7 +31,7 @@
         <button type="submit" class="btn btn-primary w-100">Verificar</button>
       </form>
       <div class="text-center mt-3">
-        <small class="text-muted">¿No recibiste el código? <a href="#" class="text-decoration-none">Reenviar</a></small>
+        <small class="text-muted">Si no recibiste el codigo intentalo mas tarde <a href="{{ route('logout') }}"  class="text-decoration-none">Regresar</a></small>
       </div>
     </div>
   </div>

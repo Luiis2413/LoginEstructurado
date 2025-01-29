@@ -5,17 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loging</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Script de reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 
 @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
     </div>
 @endif
-
 
 <section class="vh-100" style="background-color: #eee;">
   <div class="container h-100">
@@ -28,7 +34,7 @@
 
                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">inicio de sesion</p>
 
-                <form class="mx-1 mx-md-4" method="POST" action="{{ route('iniciarSesion') }}">
+                <form class="mx-1 mx-md-4" method="POST" action="{{ route('iniciarSesion') }}" id="loginForm" onsubmit="return grecaptcha.getResponse() != '';">
                 @csrf  <!-- Agregar este campo CSRF aquí -->
 
                 <div class="d-flex flex-row align-items-center mb-4">
@@ -47,13 +53,17 @@
                     </div>
                 </div>
 
+                <!-- Aquí agregas el reCAPTCHA -->
+                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <div class="g-recaptcha" data-sitekey="6LcZsMYqAAAAAE7F8LvuRJuaC8lLGGQhcaNfN7yh"></div>
+                </div>
+
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button  type="input" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg mr-3">Iniciar sesion</button>
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg mr-3">Iniciar sesion</button>
                   </div>
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                   <a href="{{route('registro')}}" class="ml-3">Registrarse</a>
                   </div>
-
 
                 </form>
 
