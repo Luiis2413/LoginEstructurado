@@ -57,8 +57,19 @@ class LoginController extends Controller
             $usuario = Cache::get('usuario');
 
             if (empty($usuario)) {
+                $log = Cache::get('log');
                 $request->session();
-                return redirect()->route('privada');
+                                // Intentar autenticar al usuario
+                if (Auth::attempt($log))
+                 {
+                    Cache::forget('codigo');
+                    return redirect()->route('privada');
+                  }
+            
+                // Si las credenciales son incorrectas
+                return redirect()->route('login')->with('error', 'Credenciales incorrectas');
+                
+                //return redirect()->route('privada');
             }
 
             try {
@@ -142,11 +153,14 @@ class LoginController extends Controller
     
         // Obtener las credenciales del usuario
         $credenciales = $request->only('email', 'password');
+        Cache::forever('log', $credenciales);
+
     
         // Intentar autenticar al usuario
         if (Auth::attempt($credenciales)) {
             Cache::forget('codigo');
             $this->codeSend($credenciales['email']);
+            Auth::logout();
             return redirect()->intended(route('verificacion'));
         }
     
